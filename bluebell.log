@@ -1,0 +1,1 @@
+{"level":"FATAL","time":"2023-12-28T21:33:21.026+0800","caller":"bluebell/main.go:45","msg":"init redis failed, err: ","error":"dial tcp 127.0.0.1:6379: connect: connection refused"}
