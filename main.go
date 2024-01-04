@@ -83,5 +83,5 @@ func main() {
 		zap.L().Fatal("Server Shutdown: ", zap.Error(err))
 	}
 
-	zap.L().Info("Server exiting")
+	zap.L().Info("Server exiting!")
 }

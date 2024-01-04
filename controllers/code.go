@@ -9,6 +9,8 @@ const (
 	CODEUSERNOTEXIST                               // 用户不存在
 	CODEINVALIDPASSWORD                            // 密码错误
 	CODESERVERBUSY                                 // 服务器繁忙
+	CODEINVALIDTOKEN                               // token无效
+	CODENEEDLOGIN                                  // 需要登陆
 )
 
 var codeMessageMap = map[ResponseCode]string{
@@ -18,6 +20,8 @@ var codeMessageMap = map[ResponseCode]string{
 	CODEUSERNOTEXIST:    "用户不存在",
 	CODEINVALIDPASSWORD: "用户名或密码错误",
 	CODESERVERBUSY:      "服务器繁忙",
+	CODEINVALIDTOKEN:    "无效的token",
+	CODENEEDLOGIN:       "需要登陆",
 }
 
 func (c ResponseCode) Msg() string {

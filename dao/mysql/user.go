@@ -10,11 +10,6 @@ import (
 
 const secret string = "zfan2356"
 
-var (
-	ErrorUserExist    = errors.New("用户已经存在")
-	ErrorUserNotExist = errors.New("用户不存在")
-)
-
 // InsertUser 插入用户记录,
 func InsertUser(user *models.User) (err error) {
 	// 对密码进行加密
@@ -44,10 +39,22 @@ func EncryptPassword(orgPassword string) string {
 	return hex.EncodeToString(hash.Sum([]byte(orgPassword)))
 }
 
+// FindUserByName 根据用户姓名查询用户
 func FindUserByName(username string) (user *models.User, err error) {
 	sqlStr := "select user_id, password, username from user where username = ?"
 	user = new(models.User)
 	err = db.Get(user, sqlStr, username)
+	if errors.Is(err, sql.ErrNoRows) {
+		return user, ErrorUserNotExist
+	}
+	return
+}
+
+// GetUserByUserID 根据用户ID查询用户
+func GetUserByUserID(uid int64) (user *models.User, err error) {
+	user = new(models.User)
+	sqlStr := `select user_id, username from user where user_id = ?`
+	err = db.Get(user, sqlStr, uid)
 	if errors.Is(err, sql.ErrNoRows) {
 		return user, ErrorUserNotExist
 	}

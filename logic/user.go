@@ -3,12 +3,8 @@ package logic
 import (
 	"bluebell/dao/mysql"
 	"bluebell/models"
+	jwt2 "bluebell/pkg/jwt"
 	"bluebell/pkg/snowflake"
-	"errors"
-)
-
-var (
-	ErrorInvalidPassword = errors.New("用户名或密码错误")
 )
 
 // SignUp 用户注册业务逻辑处理
@@ -29,14 +25,15 @@ func SignUp(p *models.ParamSignUp) (err error) {
 }
 
 // Login 用户登陆业务逻辑处理
-func Login(p *models.ParamLogin) (err error) {
+func Login(p *models.ParamLogin) (token string, err error) {
 	var user *models.User
 	user, err = mysql.FindUserByName(p.Username)
 	if err != nil {
-		return err
+		return "", err
 	}
 	if user.Password != mysql.EncryptPassword(p.Password) {
-		return ErrorInvalidPassword
+		return "", mysql.ErrorInvalidPassword
 	}
-	return err
+	// 这个时候要生成JWT的token
+	return jwt2.GenToken(user.UserID, user.UserName)
 }
