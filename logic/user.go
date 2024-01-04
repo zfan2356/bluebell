@@ -25,15 +25,19 @@ func SignUp(p *models.ParamSignUp) (err error) {
 }
 
 // Login 用户登陆业务逻辑处理
-func Login(p *models.ParamLogin) (token string, err error) {
-	var user *models.User
+func Login(p *models.ParamLogin) (user *models.User, err error) {
 	user, err = mysql.FindUserByName(p.Username)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	if user.Password != mysql.EncryptPassword(p.Password) {
-		return "", mysql.ErrorInvalidPassword
+		return nil, mysql.ErrorInvalidPassword
 	}
 	// 这个时候要生成JWT的token
-	return jwt2.GenToken(user.UserID, user.UserName)
+	token, err := jwt2.GenToken(user.UserID, user.UserName)
+	if err != nil {
+		return nil, err
+	}
+	user.Token = token
+	return
 }
