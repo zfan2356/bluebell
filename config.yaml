@@ -16,7 +16,7 @@ auth:
   jwt_expire: 8760
 
 mysql:
-  host: "127.0.0.1"
+  host: "host.docker.internal"
   port: 3306
   user: "root"
   password: "123456"
@@ -25,7 +25,7 @@ mysql:
   max_idle_conns: 50
 
 redis:
-  host: "127.0.0.1"
+  host: "host.docker.internal"
   port: 6379
   db: 0
   password: ""
