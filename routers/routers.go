@@ -17,7 +17,7 @@ func SetupRouter(mode string) *gin.Engine {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	r := gin.New()
-	r.Use(logger.GinLogger(), logger.GinRecovery(true), middleware.RateLimitMiddleware(2*time.Second, 1))
+	r.Use(logger.GinLogger(), logger.GinRecovery(true), middleware.RateLimitMiddleware(time.Second/10, 10))
 
 	// 将校验器注册为中文
 	if err := translator.InitTrans("zh"); err != nil {
