@@ -5,9 +5,11 @@ import (
 	"bluebell/logger"
 	"bluebell/middleware"
 	"bluebell/pkg/translator"
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"net/http"
+	"time"
 )
 
 func SetupRouter(mode string) *gin.Engine {
@@ -15,7 +17,7 @@ func SetupRouter(mode string) *gin.Engine {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	r := gin.New()
-	r.Use(logger.GinLogger(), logger.GinRecovery(true))
+	r.Use(logger.GinLogger(), logger.GinRecovery(true), middleware.RateLimitMiddleware(2*time.Second, 1))
 
 	// 将校验器注册为中文
 	if err := translator.InitTrans("zh"); err != nil {
@@ -47,6 +49,7 @@ func SetupRouter(mode string) *gin.Engine {
 		// 投票
 		v1.POST("/vote", controllers.PostVoteHandler)
 	}
+	pprof.Register(r)
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
