@@ -19,6 +19,10 @@
 16. 使用gin框架的`pprof`工具进行性能调优
 17. 利用`Docker` 来部署该项目, 使用分阶段构建的技术, 减少镜像体积
 
+### 设计
+#### 1. Redis
+![img.png](img%2Fimg.png)
+![img_1.png](img%2Fimg_1.png)
 
 
 ### 心得体会
