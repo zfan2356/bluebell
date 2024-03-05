@@ -20,6 +20,7 @@
 17. 利用`Docker` 来部署该项目, 使用分阶段构建的技术, 减少镜像体积
 
 ### 设计
+![img_2.png](img%2Fimg_2.png)
 #### 1. Redis
 ![img.png](img%2Fimg.png)
 ![img_1.png](img%2Fimg_1.png)
